@@ -13,8 +13,11 @@ $user = current_user();
 <body>
 <header class="site-header">
   <div class="container">
-    <h1 class="brand"><a href="index.php">Class Management</a></h1>
-    <nav>
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <a href="index.php">Class Management</a>
+    </div>
+    <nav aria-label="Main Navigation">
       <?php if ($user): ?>
         <span class="nav-item">Hello, <?=htmlspecialchars($user['full_name'] ?? $user['username'])?></span>
         <?php if ($user['role'] === 'lecturer'): ?>
