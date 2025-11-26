@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: class_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: class_management
+      MYSQL_USER: app
+      MYSQL_PASSWORD: apppass
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "3306:3306"
+
+  web:
+    image: php:8.2-apache
+    container_name: class_web
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html:cached
+    environment:
+      APACHE_RUN_USER: www-data
+      APACHE_RUN_GROUP: www-data
+
+volumes:
+  db-data:
